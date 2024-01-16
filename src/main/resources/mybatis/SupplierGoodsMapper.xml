@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp26.soft3888_m11_04_group4.dao.SupplierGoodsMapper">
+
+    <resultMap id="supplierGoodsResultMap" type="com.cp26.soft3888_m11_04_group4.pojo.SupplierGoods">
+        <result property="supplierId" column="supplier_id"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="costPerCarton" column="cost_per_carton"/>
+        <result property="costPerUnit" column="cost_per_unit"/>
+    </resultMap>
+
+
+    <select id="findCostPerCarton" resultType="Decimal">
+        SELECT cost_per_carton FROM "Supplier_Goods" WHERE supplier_id = #{supplierId} AND goods_id = #{goodsId};
+    </select>
+
+    <select id="findCostPerUnit" resultType="Decimal">
+        SELECT cost_per_unit FROM "Supplier_Goods" WHERE supplier_id = #{supplierId} AND goods_id = #{goodsId};
+    </select>
+
+    <select id="querySupplierGoodsById" resultMap="supplierGoodsResultMap">
+        SELECT * FROM "Supplier_Goods" WHERE supplier_id = #{supplierId} AND goods_id = #{goodsId};
+    </select>
+
+    <insert id="addSupplierGoods" parameterType="com.cp26.soft3888_m11_04_group4.pojo.SupplierGoods">
+        INSERT INTO "Supplier_Goods" (supplier_id, goods_id, cost_per_carton, cost_per_unit)
+        VALUES (#{supplierId}, #{goodsId}, #{costPerCarton}, #{costPerUnit});
+    </insert>
+
+    <delete id="deleteSupplierGoods" parameterType="integer">
+        DELETE FROM "Supplier_Goods" WHERE supplier_id = #{supplierId} AND goods_id = #{goodsId};
+    </delete>
+
+</mapper>

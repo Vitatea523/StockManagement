@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp26.soft3888_m11_04_group4.dao.UserMapper">
+
+    <insert id="addUser" parameterType="com.cp26.soft3888_m11_04_group4.pojo.User" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO "User"(name, password, title)
+        VALUES (#{name}, #{password}, #{title});
+    </insert>
+
+    <update id="updateUserById">
+        UPDATE "User"
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title}
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+
+    <update id="updateUserPasswordById">
+        UPDATE "User"
+        <set>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+
+    <update id="updateUserByName">
+        UPDATE "User"
+        <set>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title}
+            </if>
+        </set>
+        WHERE name = #{name};
+    </update>
+
+    <select id="queryByName" resultType="com.cp26.soft3888_m11_04_group4.pojo.User">
+        SELECT * FROM "User" WHERE name = #{name};
+    </select>
+
+    <select id="queryById" resultType="com.cp26.soft3888_m11_04_group4.pojo.User">
+        SELECT * FROM "User" WHERE id = #{id};
+    </select>
+
+    <select id="queryByNameAndPassword" resultType="com.cp26.soft3888_m11_04_group4.pojo.User">
+        SELECT * FROM "User" WHERE name = #{name} AND password = #{password};
+    </select>
+
+    <select id="queryAllUsers" resultType="com.cp26.soft3888_m11_04_group4.pojo.User">
+        SELECT * FROM "User" ORDER BY id ASC;
+    </select>
+
+    <delete id="deleteUserById" parameterType="integer">
+        DELETE from "User" WHERE id = #{id};
+    </delete>
+
+    <update id="restartIndex">
+        ALTER SEQUENCE table_name_id_seq RESTART WITH 1;
+    </update>
+</mapper>

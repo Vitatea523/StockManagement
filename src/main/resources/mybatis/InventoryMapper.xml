@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp26.soft3888_m11_04_group4.dao.InventoryMapper">
+
+    <resultMap id="inventoryResultMap" type="com.cp26.soft3888_m11_04_group4.pojo.Inventory">
+        <id property="goodsId" column="goods_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="amount" column="amount"/>
+        <result property="GPPercent" column="GP%"/>
+    </resultMap>
+
+    <resultMap id="inventoryOrderResultMap" type="com.cp26.soft3888_m11_04_group4.pojo.InventoryOrder">
+        <result property="costPerCarton" column="current_cost_per_carton"/>
+        <result property="costPerUnit" column="current_cost_per_unit"/>
+        <result property="amount" column="amount"/>
+        <result property="expireDate" column="expire_date"/>
+    </resultMap>
+
+    <select id="findSingleInventory" resultMap="inventoryResultMap">
+        SELECT * FROM "Inventory" WHERE goods_id = #{goodsId} AND order_id = #{orderId};
+    </select>
+
+    <insert id="addInventory" parameterType="com.cp26.soft3888_m11_04_group4.pojo.Inventory">
+        INSERT INTO "Inventory" (goods_id, order_id, amount, "GP%")
+        VALUES (#{goodsId}, #{orderId}, #{amount}, #{GPPercent});
+    </insert>
+
+    <delete id="deleteInventory" parameterType="integer">
+        DELETE FROM "Inventory" WHERE goods_id = #{goodsId} AND order_id = #{orderId};
+    </delete>
+
+    <update id="updateInventory" parameterType="integer">
+        UPDATE "Inventory"
+        SET amount = #{newAmount}
+        WHERE goods_id = #{goodsId} AND order_id = #{orderId};
+    </update>
+
+    <select id="generateInventoryList" resultMap="inventoryOrderResultMap">
+        SELECT row_number() over () as id, current_cost_per_carton, current_cost_per_unit, "Inventory".amount, expire_date FROM "Inventory" INNER JOIN "Supplier_Order" ON "Inventory".order_id = "Supplier_Order".order_id;
+    </select>
+
+    <select id="generateAllInventory" resultMap="inventoryOrderResultMap">
+        SELECT "Inventory".goods_id as id, current_cost_per_carton, current_cost_per_unit, "Inventory".amount, expire_date FROM "Inventory" INNER JOIN "Supplier_Order" ON "Inventory".order_id = "Supplier_Order".order_id;
+    </select>
+
+    <select id="generateInventoryListByGoodsId" resultMap="inventoryOrderResultMap">
+        SELECT row_number() over () as id, current_cost_per_carton, current_cost_per_unit, "Inventory".amount, expire_date FROM "Inventory" INNER JOIN "Supplier_Order" ON "Inventory".order_id = "Supplier_Order".order_id WHERE "Inventory".goods_id = #{goodsId};
+    </select>
+
+    <select id="checkInventoryByCashier" parameterType="integer" resultType="integer">
+        SELECT i.amount FROM "Supplier_Order" AS s INNER JOIN "Inventory" AS i
+        ON s.order_id = i.order_id
+        WHERE s.goods_id = #{goodsId}
+        ORDER BY placed_date, expire_date ASC limit 1;
+    </select>
+
+    <update id="updateInventoryByCashier" parameterType="com.cp26.soft3888_m11_04_group4.pojo.SellingHistory">
+            UPDATE "Inventory"
+            <set>
+                amount = amount - #{amount}
+            </set>
+            WHERE order_id = (
+            select s.order_id from "Supplier_Order" as s INNER JOIN "Inventory" as i
+            on s.order_id = i.order_id
+            <where>
+                s.goods_id = #{goodsId}
+            </where>
+            order by placed_date, expire_date asc limit 1
+            );
+    </update>
+
+    <update id="updateInventoryByCashierForLessStorage" parameterType="com.cp26.soft3888_m11_04_group4.pojo.SellingHistory">
+        UPDATE "Inventory"
+        SET amount = 0
+        WHERE order_id = (
+        select s.order_id from "Supplier_Order" as s INNER JOIN "Inventory" as i
+        on s.order_id = i.order_id
+        <where>
+            s.goods_id = #{goodsId}
+        </where>
+        order by placed_date, expire_date asc limit 1
+        );
+    </update>
+
+    <delete id="deleteInventoryByCashier">
+        DELETE FROM "Inventory" WHERE amount = 0;
+    </delete>
+
+</mapper>

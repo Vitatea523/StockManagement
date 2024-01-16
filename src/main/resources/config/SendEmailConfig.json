@@ -1,0 +1,4 @@
+{
+  "topic": "Order for %s from Metro Petroleum",
+  "body": "Dear Mr./Mrs. %s,\nI am representing Metro Petroleum to order from you. I would like to order %d %s from you. Its APN is %d, and they are listed at $%f per %s.\n\nMetro Petroleum.\n\nIf you have any questions or any issues arise with my order, please not hesitate to contact me.\nThank you."
+}

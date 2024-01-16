@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp26.soft3888_m11_04_group4.dao.OrderMapper">
+
+    <resultMap id="orderResultMap" type="com.cp26.soft3888_m11_04_group4.pojo.Order">
+        <id property="id" column="order_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="date" column="placed_date"/>
+        <result property="expireDate" column="expire_date"/>
+        <result property="amount" column="amount"/>
+        <result property="currentCostPerCarton" column="current_cost_per_carton"/>
+        <result property="currentCostPerUnit" column="current_cost_per_unit"/>
+    </resultMap>
+
+    <select id="listAllOrder" resultMap="orderResultMap">
+        SELECT * FROM "Supplier_Order" ORDER BY order_id;
+    </select>
+
+    <select id="listOrderBySupplier" resultMap="orderResultMap">
+        SELECT * FROM "Supplier_Order" INNER JOIN "Supplier" ON id = supplier_id WHERE supplier_id = #{supplier_id} ORDER BY order_id;
+    </select>
+
+    <select id="listOrderByGoods" resultMap="orderResultMap">
+        SELECT * FROM "Supplier_Order" WHERE goods_id = #{goodsId} ORDER BY order_id;
+    </select>
+
+    <select id="findOrderById" resultMap="orderResultMap">
+        SELECT * FROM "Supplier_Order" WHERE order_id = #{id};
+    </select>
+
+    <insert id="addOrder" parameterType="com.cp26.soft3888_m11_04_group4.pojo.Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "Supplier_Order"(supplier_id, goods_id, placed_date, expire_date, amount, current_cost_per_carton, current_cost_per_unit, status)
+        VALUES (#{supplierId}, #{goodsId}, #{date}, #{expireDate}, #{amount}, #{currentCostPerCarton}, #{currentCostPerUnit}, #{status});
+    </insert>
+
+    <update id="deleteOrder">
+        UPDATE "Supplier_Order"
+        SET supplier_id = #{supplierId}, goods_id = #{goodsId}, placed_date = #{date}, expire_date = #{expireDate}, amount = #{amount}, current_cost_per_carton = #{currentCostPerCarton}, current_cost_per_unit = #{currentCostPerUnit}, status = #{status}
+        WHERE order_id = #{id};
+    </update>
+
+    <update id="updateOrder">
+        UPDATE "Supplier_Order"
+        SET supplier_id = #{supplierId}, goods_id = #{goodsId}, placed_date = #{date}, expire_date = #{expireDate}, amount = #{amount}, current_cost_per_carton = #{currentCostPerCarton}, current_cost_per_unit = #{currentCostPerUnit}, status = #{status}
+        WHERE order_id = #{id};
+    </update>
+
+    <update id="restartIndex">
+        ALTER SEQUENCE supplier_order_id_seq RESTART WITH 1;
+    </update>
+
+    <delete id="removeOrder">
+        DELETE FROM "Supplier_Order" WHERE order_id = #{id};
+    </delete>
+</mapper>

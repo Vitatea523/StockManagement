@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp26.soft3888_m11_04_group4.dao.SellingHistoryMapper">
+
+    <resultMap id="SellingHistoryResultMap" type="com.cp26.soft3888_m11_04_group4.pojo.SellingHistory">
+        <id property="id" column="id"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="amount" column="amount"/>
+        <result property="soldDate" column="sold_date"/>
+        <result property="money" column="money"/>
+    </resultMap>
+
+    <select id="listAllSellingHistory" resultMap="SellingHistoryResultMap">
+        SELECT * FROM "Selling_history";
+    </select>
+
+    <delete id="deleteSellingHistory" parameterType="integer">
+        DELETE FROM "Selling_history" WHERE id = #{id};
+    </delete>
+
+    <update id="restartIndex">
+        ALTER SEQUENCE selling_history_id_seq RESTART WITH 1;
+    </update>
+
+    <update id="addSellingHistoryListByCashier" parameterType="java.util.List">
+        INSERT INTO "Selling_history" (goods_id, amount, sold_date, money) VALUES
+        <foreach collection="list" item="sellingHistory" separator=",">
+             (#{sellingHistory.goodsId}, #{sellingHistory.amount}, #{sellingHistory.soldDate}, #{sellingHistory.money})
+        </foreach>
+    </update>
+
+</mapper>

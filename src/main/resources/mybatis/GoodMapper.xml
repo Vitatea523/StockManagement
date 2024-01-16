@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cp26.soft3888_m11_04_group4.dao.GoodMapper">
+
+    <resultMap id="goodsResultMap" type="com.cp26.soft3888_m11_04_group4.pojo.Goods">
+        <id property="goodId" column="goods_id"/>
+        <result property="name" column="name"/>
+        <result property="APN" column="APN"/>
+        <result property="UOM" column="UOM"/>
+        <result property="price" column="price"/>
+        <result property="amount" column="amount"/>
+        <result property="threshold" column="threshold"/>
+        <result property="fullStandard" column="full_standard"/>
+        <result property="highStandard" column="high_standard"/>
+        <result property="mediumStandard" column="medium_standard"/>
+        <result property="lowStandard" column="low_standard"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+
+    <insert id="addGood" parameterType="com.cp26.soft3888_m11_04_group4.pojo.Goods" useGeneratedKeys="true" keyProperty="goodId">
+        INSERT INTO "Goods"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="APN != null and APN != ''">
+                "APN",
+            </if>
+            <if test="UOM != null and UOM != ''">
+                "UOM",
+            </if>
+            <if test="price != null and price != ''">
+                price,
+            </if>
+            <if test="amount != null and amount != ''">
+                amount,
+            </if>
+            <if test="threshold != null and threshold != ''">
+                threshold,
+            </if>
+            <if test="fullStandard != null and fullStandard !=''">
+                full_standard,
+            </if>
+            <if test="highStandard != null and highStandard != ''">
+                high_standard,
+            </if>
+            <if test="mediumStandard != null and mediumStandard != ''">
+                medium_standard,
+            </if>
+            <if test="lowStandard != null and lowStandard != ''">
+                low_standard,
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                category_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="APN != null and APN != ''">
+                #{APN},
+            </if>
+            <if test="UOM != null and UOM != ''">
+                #{UOM},
+            </if>
+            <if test="price != null and price != ''">
+                #{price},
+            </if>
+            <if test="amount != null and amount != ''">
+                #{amount},
+            </if>
+            <if test="threshold != null and threshold != ''">
+                #{threshold},
+            </if>
+            <if test="fullStandard != null and fullStandard !=''">
+                #{fullStandard},
+            </if>
+            <if test="highStandard != null and highStandard != ''">
+                #{highStandard},
+            </if>
+            <if test="mediumStandard != null and mediumStandard != ''">
+                #{mediumStandard},
+            </if>
+            <if test="lowStandard != null and lowStandard != ''">
+                #{lowStandard},
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                #{categoryName},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateGoodsById">
+        UPDATE "Goods"
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="APN != null">
+                "APN" = #{APN,jdbcType=INTEGER},
+            </if>
+            <if test="UOM != null">
+                "UOM" = #{UOM,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="threshold != null">
+                threshold = #{threshold,jdbcType=INTEGER},
+            </if>
+            <if test="fullStandard != null">
+                full_standard = #{fullStandard,jdbcType=INTEGER},
+            </if>
+            <if test="highStandard != null">
+                high_standard = #{highStandard,jdbcType=INTEGER},
+            </if>
+            <if test="mediumStandard != null">
+                medium_standard = #{mediumStandard,jdbcType=INTEGER},
+            </if>
+            <if test="lowStandard != null">
+                low_standard = #{lowStandard,jdbcType=INTEGER}
+            </if>
+        </set>
+        WHERE goods_id = #{goodId};
+    </update>
+
+    <update id="updateGoodsByName">
+        UPDATE "Goods"
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="APN != null">
+                "APN" = #{APN,jdbcType=INTEGER},
+            </if>
+            <if test="UOM != null">
+                "UOM" = #{UOM,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="threshold != null">
+                threshold = #{threshold,jdbcType=INTEGER},
+            </if>
+            <if test="fullStandard != null">
+                full_standard = #{fullStandard,jdbcType=INTEGER},
+            </if>
+            <if test="highStandard != null">
+                high_standard = #{highStandard,jdbcType=INTEGER},
+            </if>
+            <if test="mediumStandard != null">
+                medium_standard = #{mediumStandard,jdbcType=INTEGER},
+            </if>
+            <if test="lowStandard != null">
+                low_standard = #{lowStandard,jdbcType=INTEGER}
+            </if>
+        </set>
+        WHERE name = #{name};
+    </update>
+
+    <select id="queryAllGoods" resultType="com.cp26.soft3888_m11_04_group4.pojo.Goods">
+        SELECT goods_id as goodId, name, "APN", "UOM", price, amount, threshold, full_standard, high_standard, medium_standard, low_standard, category_name as categoryName FROM "Goods" g ORDER BY goods_id ASC;
+    </select>
+
+    <select id="queryGoodsByName" resultType="com.cp26.soft3888_m11_04_group4.pojo.Goods">
+        SELECT goods_id as goodId, name, "APN", "UOM", price, amount, threshold, full_standard, high_standard, medium_standard, low_standard, category_name as categoryName FROM "Goods" g WHERE name LIKE '%'||#{name}||'%';
+    </select>
+
+    <select id="queryGoodsById" resultType="com.cp26.soft3888_m11_04_group4.pojo.Goods">
+        SELECT g.goods_id as goodId, g.name, g."APN", g."UOM", g.price, g.amount, g.threshold, g.full_standard, g.high_standard, g.medium_standard, g.low_standard, category_name as categoryName
+        FROM "Goods" g
+        WHERE g.goods_id = #{id};
+    </select>
+
+    <select id="queryGoodsByAPN" resultType="com.cp26.soft3888_m11_04_group4.pojo.Goods">
+        SELECT goods_id as goodId, name, "APN", "UOM", price, amount, threshold, full_standard, high_standard, medium_standard, low_standard, category_name as categoryName FROM "Goods" g WHERE "APN" = #{APN};
+    </select>
+
+    <select id="queryGoodsByCategory" resultType="com.cp26.soft3888_m11_04_group4.pojo.Goods">
+        SELECT goods_id as goodId, name, "APN", "UOM", price, amount, threshold, full_standard, high_standard, medium_standard, low_standard, category_name as categoryName FROM "Goods" g WHERE category_name = #{categoryName};
+    </select>
+
+    <delete id="deleteGoods" parameterType="integer">
+        DELETE FROM "Goods" WHERE goods_id = #{goodId};
+    </delete>
+
+    <update id="restartIndex">
+        ALTER SEQUENCE goods_id_seq RESTART WITH 1;
+    </update>
+
+    <select id="findAverageCost"  resultType="decimal" parameterType="integer">
+        SELECT AVG(cost_per_unit) FROM "Goods" INNER JOIN "Supplier_Goods" ON "Goods".goods_id = "Supplier_Goods".goods_id WHERE "Goods".goods_id = #{goodsId};
+    </select>
+
+    <select id="findAllGoodsInfo"  resultType="com.cp26.soft3888_m11_04_group4.pojo.GoodsInfo">
+        SELECT "Goods".goods_id AS goodsId, price AS price, AVG(cost_per_unit) AS averageCost FROM "Goods" INNER JOIN "Supplier_Goods" ON "Goods".goods_id = "Supplier_Goods".goods_id GROUP BY "Goods".goods_id ORDER BY "Goods".goods_id;
+    </select>
+
+    <select id="findTheCheapestSupplier" resultType="com.cp26.soft3888_m11_04_group4.pojo.CheapestGood">
+        SELECT s.id as id, s.business_name as businessName, s.contact_name as contactName, s.e_mail as email, s.phone_number as phoneNumber, sg.cost_per_unit, sg.cost_per_carton
+        FROM "Goods" g LEFT JOIN "Supplier_Goods" sg ON g.goods_id = sg.goods_id LEFT JOIN "Supplier" s ON sg.supplier_id = s.id
+        WHERE g.goods_id = #{goodId}
+        ORDER BY sg.cost_per_unit ASC;
+    </select>
+
+    <select id="findAverageCostPerUnit" resultType="java.math.BigDecimal">
+        SELECT AVG(cost_per_unit) FROM "Goods" g LEFT JOIN "Supplier_Goods" sg ON g.goods_id = sg.goods_id
+        WHERE g.goods_id = #{goodId} GROUP BY g.goods_id;
+    </select>
+
+    <select id="countSalesFrequency" resultType="com.cp26.soft3888_m11_04_group4.pojo.StockLevelReport">
+        SELECT G.goods_id as goodId,
+               name,
+               G.amount as amount,
+               category_name as categoryName ,
+               full_standard as fullStandard,
+               high_standard as highStandard,
+               medium_standard as mediumStandard,
+               low_standard as lowStandard,
+               coalesce(SUM (S.amount), 0) as salesFrequency
+        FROM "Goods" as G LEFT OUTER JOIN "Selling_history" as S
+            ON G.goods_id = S.goods_id
+            AND sold_date > (CURRENT_DATE - INTERVAL '7 DAY')::DATE
+        GROUP BY G.goods_id ORDER BY G.goods_id ASC;
+    </select>
+
+    <update id="updateGoodsByListByCashier" parameterType="java.util.List">
+        <foreach collection="list" item="sellingHistory" separator=";">
+            UPDATE "Goods"
+            <set>
+                amount = amount - #{sellingHistory.amount}
+            </set>
+            <where>
+                goods_id = #{sellingHistory.goodsId}
+            </where>
+        </foreach>
+    </update>
+</mapper>
